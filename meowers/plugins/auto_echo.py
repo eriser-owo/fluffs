@@ -12,7 +12,7 @@ logger = logging.getLogger(__name__)
 
 WINDOW = 60.0      # 统计窗口（秒）
 THRESHOLD = 3      # 需要多少个「不同的人」
-COOLDOWN = 60.0    # 复读之后的冷却（秒），期间同一条消息不再复读
+COOLDOWN = 10.0    # 复读之后的冷却（秒），期间同一条消息不再复读
 MAX_LEN = 200      # 超过这个长度的消息不参与（别复读大段文本刷屏）
 
 _cfg = get_active_config()
