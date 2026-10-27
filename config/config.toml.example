@@ -1,0 +1,62 @@
+# config.toml.example 复制+改名 config.toml
+# 敏感项建议填到env 详见.env.example
+
+[connection]
+# reverse_ws: Bot 作为 WebSocket 服务端，NapCat 主动连过来
+# forward_ws: Bot 作为客户端，主动连 NapCat 的 WebSocket 服务端 (测试ing，尚不可用)
+mode = "reverse_ws"
+host = "127.0.0.1"
+# reverse_ws 监听端口，需与 NapCat网络配置 -> 新建 WebSocket 服务器(反向) 中的 URL 一致
+port = 8080
+path = "/onebot/v11/ws"
+# 与 NapCat 侧填写的 token 相同，留空表示不校验
+token = ""
+# forward_ws 模式下 NapCat 的地址
+forward_url = "ws://127.0.0.1:3001"
+# 断线重连间隔(sec)
+reconnect_interval = 3.0
+# 单次 API 调用超时(sec)
+api_timeout = 30.0
+
+[bot]
+# 0 表示启动后自动从 NapCat 获取登录号（get_login_info）
+self_id = 0
+# 超级用户 QQ 号，供权限类插件使用（填写数字，不要加双引号 "" ）
+superusers = []
+# 命令前缀
+command_prefixes = ["//"]
+
+ignore_self = true
+# 插件扫描包，按此顺序扫描：框架内置命令 builtin-> 本 App 的模块 modules  -> 其他插件 plugins
+plugin_modules = ["fluffs.builtin", "meowers.modules", "meowers.plugins"]
+# 不想加载的插件/模块短名（如 "echo"、"llm_chat"、"chatlog"）
+disabled_plugins = []
+
+[llm]
+# 敏感项(如API Key)
+enabled = true
+provider = "openai_compat"
+base_url = ""
+api_key = ""
+model = ""
+system_prompt = ""
+temperature = 0.7
+max_tokens = 1024
+timeout = 60.0
+allow_private = true
+[chatlog]
+enabled = true
+# all: 记录所有群消息（完整聊天档案） | mention: 只记录 @ 了机器人的消息
+scope = "all"
+dir = "data/chatlog"
+flush_interval = 60.0
+max_buffer = 200
+
+[log]
+# DEBUG | INFO | WARNING(WARN) | ERROR | CRITICAL(FATAL) | NOTSET
+# DEBUG 会记录每个事件和 API 调用，排障时用；日常保持 INFO
+# websockets / httpx / httpcore 固定降噪为 WARNING，设 DEBUG 也看不到它们的调试输出
+# 临时调级别不用改这个文件：设置环境变量 FLUFFS_LOG_LEVEL=DEBUG 即可（env 优先于 toml）
+level = "DEBUG"
+# 留空表示只输出到控制台；示例：logs/bot.log
+file = "logs/bot.log"
