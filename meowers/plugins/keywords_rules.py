@@ -64,12 +64,13 @@ async def say(ctx: EventContext) -> None:
     text = ctx.text[len(command_prefix + "say"):].strip()
     await ctx.reply(text or f"用法：{command_prefix}say <内容>")
 
-@on_keyword("草猫", match="exact", at_sender=True)
-async def ro(ctx: EventContext) -> None:
-    event = ctx.message_event
-    if event is None:
-        return
-    await ctx.reply("成功草猫了", at_sender=True)
+
+# @on_keyword("草猫", match="exact", at_sender=True)
+# async def ro(ctx: EventContext) -> None:
+#     event = ctx.message_event
+#     if event is None:
+#         return
+#     await ctx.reply("成功草猫了", at_sender=False)
 
 
 
