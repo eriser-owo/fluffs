@@ -50,6 +50,7 @@ class Handler:
     plugin: str | None = None
     kind: str = KIND_MESSAGE
     once: bool = False
+    passive: bool = False  # 被动处理（只记录/观察，不主动回应）；黑名单用户的消息也会走到它
     name: str = ""
 
     def matches(self, ctx: EventContext) -> bool:
@@ -78,6 +79,7 @@ class Dispatcher:
         block: bool = False,
         once: bool = False,
         plugin: str | None = None,
+        passive: bool = False,
     ) -> Handler:
         handler = Handler(
             func=func,
@@ -87,6 +89,7 @@ class Dispatcher:
             plugin=plugin,
             kind=kind,
             once=once,
+            passive=passive,
             name=getattr(func, "__name__", repr(func)),
         )
         self._handlers.append(handler)
@@ -103,11 +106,12 @@ class Dispatcher:
         block: bool = False,
         once: bool = False,
         plugin: str | None = None,
+        passive: bool = False,
     ) -> Callable[[HandlerFunc], HandlerFunc]:
         """装饰器工厂：拿到kind对应的注册装饰器。"""
 
         def decorator(func: HandlerFunc) -> HandlerFunc:
-            self.register(kind, func, rule, priority=priority, block=block, once=once, plugin=plugin)
+            self.register(kind, func, rule, priority=priority, block=block, once=once, plugin=plugin, passive=passive)
             return func
 
         return decorator
@@ -147,8 +151,16 @@ class Dispatcher:
         if not candidates:
             return False
 
+        # 黑名单用户的消息：只让 passive（记录/观察）处理器走，会回应的处理器全部跳过
+        blacklisted = (
+            isinstance(event, MessageEvent)
+            and event.user_id in bot.config.bot.blacklist
+        )
+
         handled = False
         for handler in candidates:
+            if blacklisted and not handler.passive:
+                continue
             ctx = EventContext(bot=bot, event=event, plugin=handler.plugin)
             if not handler.matches(ctx):
                 continue

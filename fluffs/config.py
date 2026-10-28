@@ -54,6 +54,8 @@ class BotConfig:
     # 忽略机器人自己发出的消息（NapCat 开启"上报自身消息"时会出现）：
     # 否则"关键词回复的内容里又含该关键词"会造成自触发循环
     ignore_self: bool = True
+    # 黑名单用户
+    blacklist: list[int] = field(default_factory=list)
     # 依次扫描的插件包；框架默认只扫自己的内置命令，App 会覆盖成"内置 + 自己的模块与插件"
     plugin_modules: list[str] = field(default_factory=lambda: ["fluffs.builtin"])
     disabled_plugins: list[str] = field(default_factory=list)
@@ -89,6 +91,7 @@ class FluffsConfig:
                 "superusers": self.bot.superusers,
                 "command_prefixes": self.bot.command_prefixes,
                 "ignore_self": self.bot.ignore_self,
+                "blacklist": self.bot.blacklist,
                 "plugin_modules": self.bot.plugin_modules,
             },
             "log": {"level": self.log.level, "file": self.log.file or "<控制台>"},

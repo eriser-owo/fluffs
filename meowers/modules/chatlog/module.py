@@ -17,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 __plugin_meta__ = {
     "name": "chatlog",
-    "description": "聊天记录归档：内存缓冲 + 定时落盘（data/chatlog/*.jsonl）",
+    "description": "聊天记录归档：内存缓冲 + 定时落盘（data/chatlog/chatlog.db，SQLite）",
     "usage": "无需命令，配置见 config.toml 的 [chatlog]",
     "version": "0.2.0",
 }
@@ -37,7 +37,7 @@ async def setup(bot) -> None:
     mentioned = rules.to_me()
 
     # priority 调大：先让其它插件处理完，再顺手记录（block=False 不影响别人）
-    @bot.on_message(rules.group_only, priority=90)
+    @bot.on_message(rules.group_only, priority=90, passive=True)
     async def record_group_message(ctx: EventContext) -> None:
         event = ctx.message_event
         if event is None or not event.plain_text.strip():

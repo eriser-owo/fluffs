@@ -123,6 +123,7 @@ def _env_mapping(config: AppConfig) -> dict[str, tuple[Any, str, Any]]:
         f"{ENV_PREFIX}FORWARD_URL": (config.connection, "forward_url", str),
         f"{ENV_PREFIX}SELF_ID": (config.bot, "self_id", int),
         f"{ENV_PREFIX}SUPERUSERS": (config.bot, "superusers", env_int_list),
+        f"{ENV_PREFIX}BLACKLIST": (config.bot, "blacklist", env_int_list),
         f"{ENV_PREFIX}IGNORE_SELF": (config.bot, "ignore_self", env_bool),
         f"{ENV_PREFIX}LOG_LEVEL": (config.log, "level", str),
         # 应用段

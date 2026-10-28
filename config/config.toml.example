@@ -23,6 +23,8 @@ api_timeout = 30.0
 self_id = 0
 # 超级用户 QQ 号，供权限类插件使用（填写数字，不要加双引号 "" ）
 superusers = []
+# 黑名单用户：机器人整体无视其消息
+blacklist = []
 # 命令前缀
 command_prefixes = ["//"]
 
