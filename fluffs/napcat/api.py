@@ -43,6 +43,15 @@ class BotAPI:
         """调用任意 OneBot 动作，返回其 ``data``（对象或数组，取决于接口）。"""
         return await self.transport.call(action, params, timeout)
 
+    def get_avatar_url(self, user_id: int | str, size: int = 640) -> str:
+        """拼出某个 QQ 号的头像 CDN 地址
+        发头像图：msg.image(bot.api.get_avatar_url(qq))；
+        存字节：去 App 层的 bot.services["avatar_cache"] 下载。
+        """
+        from .avatar import avatar_url
+
+        return avatar_url(user_id, size)
+
     # --- 消息 -------------------------------------------------------------
     async def send_group_msg(self, group_id: int, message: msg.MessageLike, *, auto_escape: bool = False) -> dict[str, Any]:
         return await self.call("send_group_msg", group_id=group_id, message=message, auto_escape=auto_escape)
@@ -119,6 +128,10 @@ class BotAPI:
 
     async def get_group_member_info(self, group_id: int, user_id: int, *, no_cache: bool = False) -> dict[str, Any]:
         return await self.call("get_group_member_info", group_id=group_id, user_id=user_id, no_cache=no_cache)
+
+    async def get_group_member_list(self, group_id: int, *, no_cache: bool = False) -> list[dict[str, Any]]:
+        """群成员列表。OneBot 11 里 ``data`` 本身就是数组。"""
+        return _as_list(await self.call("get_group_member_list", group_id=group_id, no_cache=no_cache))
 
     # --- 群管理（后续管理类插件直接用）-----------------------------------
     async def set_group_ban(self, group_id: int, user_id: int, duration: int = 1800) -> dict[str, Any]:

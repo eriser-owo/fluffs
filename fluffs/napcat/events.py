@@ -109,6 +109,13 @@ class MessageEvent(Event):
     def images(self) -> list[str]:
         return [str(seg.get("data", {}).get("url") or seg.get("data", {}).get("file")) for seg in self.get_segments("image")]
 
+    @property
+    def avatar_url(self) -> str:
+        """发送者头像的 qlogo CDN 地址（640 尺寸，纯函数、无 I/O）。"""
+        from .avatar import avatar_url as _avatar_url
+
+        return _avatar_url(self.user_id)
+
 
 @dataclass(slots=True)
 class GroupMessageEvent(MessageEvent):

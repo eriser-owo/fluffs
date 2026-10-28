@@ -17,6 +17,7 @@ from __future__ import annotations
 
 from . import message
 from .api import BotAPI
+from .avatar import AVATAR_SIZES, avatar_url
 from .errors import ActionFailed, ActionTimeout, NotConnected, OneBotError
 from .events import (
     Event,
@@ -31,6 +32,7 @@ from .events import (
 from .transport import Transport, create_transport
 
 __all__ = [
+    "AVATAR_SIZES",
     "ActionFailed",
     "ActionTimeout",
     "BotAPI",
@@ -44,6 +46,7 @@ __all__ = [
     "PrivateMessageEvent",
     "RequestEvent",
     "Transport",
+    "avatar_url",
     "create_transport",
     "message",
     "parse_event",
