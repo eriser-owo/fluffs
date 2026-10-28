@@ -15,7 +15,7 @@ FORMAT = "%(asctime)s | %(levelname)-7s | %(name)-24s | %(message)s"
 DATEFMT = "%Y-%m-%d %H:%M:%S"
 
 # 这些第三方库固定降噪到 WARNING，即使 level=DEBUG 也看不到它们的调试输出
-QUIET_LOGGERS = ("websockets", "httpx", "httpcore", "aiosqlite")
+QUIET_LOGGERS = ("websockets", "httpx", "httpcore", "aiosqlite", "PIL")
 
 
 def setup_logging(level: str = "INFO", log_file: str = "") -> None:

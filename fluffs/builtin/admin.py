@@ -49,8 +49,7 @@ def setup(bot) -> None:
     async def napcat(ctx: EventContext) -> None:
         version_data = {}
         try:
-            result = await bot.call_action("get_version_info")
-            version_data = result.get("data", {})
+            version_data = await bot.api.get_version_info()  # Transport.call 已返回 data
         except Exception:
             pass  # 版本获取失败时不阻断，继续展示环境信息
         lines = ["NapCat 运行环境"]

@@ -8,10 +8,10 @@ from fluffs.napcat import NoticeEvent
 
 __plugin_meta__ = {
     "name": "poke",
-    "description": "示例插件：被戳一戳时回应（可删）",
-    "usage": "戳一戳机器人即可",
+    "description": "戳一戳时回应",
+    "usage": "戳一戳机器人",
     "version": "0.1.0",
-    "author": "Eriser",
+    "author": "eriser-owo",
 }
 
 

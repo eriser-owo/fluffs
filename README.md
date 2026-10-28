@@ -31,8 +31,13 @@ Python 3.14+、
 |---|---|---|---|
 | `websockets` | ≥15.0 | WebSocket 服务端 / 客户端 | `fluffs/napcat/transport/`（反向 / 正向 WS） |
 | `coloredlogs` | ≥15.0.1 | 终端彩色日志 | `fluffs/logging_setup.py`（`ColoredFormatter`） |
+| `httpx` | ≥0.28.0 | 大模型 HTTP 客户端 | `meowers/modules/llm_chat/providers/openai_compat.py` |
+| `ddgs` | ≥9.16.0 | 网页搜索 | `meowers/plugins/search.py` |
+| `psutil` | ≥7.2.2 | 系统状态查询 | `meowers/plugins/sys_query.py` |
+| `pillow` | ≥13.0.0 | 生成签到日历图 | `meowers/plugins/cat_checkin.py` |
+| `aiosqlite` | ≥0.22.1 | SQLite 存储 | `meowers/modules/chatlog/`、`meowers/plugins/cat_checkin.py` |
 
-> 只有这 2 个是框架自己要的。把 `meowers/` 目录整个挪走，框架仍然能启动（只剩内置 `//help` `//status`）。
+> 只有前 2 个（`websockets`、`coloredlogs`）是框架自己要的。把 `meowers/` 目录整个挪走，框架仍然能启动（只剩内置 `//help` `//status`）；其余依赖都属于 `meowers` 应用。
 
 
 
@@ -51,6 +56,7 @@ Python 3.14+、
 
 ## 怎么写插件？
 去 `meowers/plugins/` 目录下,参考 `_template.py`
+***请勿下载、安装或使用来路不明的插件。因使用非可信来源插件导致的一切后果，由使用者自行承担。***
 
 ## 协议
 - 使用 MIT 协议开源

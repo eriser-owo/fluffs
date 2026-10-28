@@ -149,6 +149,11 @@ class ChatLogRecorder:
             self._task = None
         flushed = await self.flush()
         if self._db is not None:
+            # 退出前把 WAL 里尚未合并的数据 checkpoint 回主库，避免 -wal 文件越滚越大
+            try:
+                await self._db.execute("PRAGMA wal_checkpoint(TRUNCATE);")
+            except sqlite3.Error:
+                logger.debug("WAL checkpoint 没跑成喵，不影响关闭~")
             try:
                 await self._db.close()
             except sqlite3.Error:

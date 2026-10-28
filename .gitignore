@@ -20,3 +20,5 @@ config/config.toml
 *.log
 *.pid
 *.sock
+*.ttf
+*.otf
