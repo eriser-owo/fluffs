@@ -7,13 +7,12 @@ _cfg = get_active_config()
 _prefixes = _cfg.bot.command_prefixes if _cfg else []
 command_prefix = (_prefixes or ["//"])[0]
 
-#最简插件演示
-
 __plugin_meta__ = {
     "name": "echo",
-    "description": f"示例插件：{command_prefix}echo 复读",
+    "description": f"{command_prefix}echo 复读",
     "usage": f"{command_prefix}echo <内容> 或 {command_prefix}复读 <内容>",
-    "version": "0.1",
+    "version": "0.1.0",
+    "author": "eriser-owo",
 }
 
 

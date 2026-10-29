@@ -37,7 +37,7 @@ command_prefix = (_prefixes or ["//"])[0]
 __plugin_meta__ = {
     "name": "keywords_rules",
     "description": "kw规则插件",
-    "usage": "支持单条自动回复或者说执行自定义函数",
+    "usage": "无",
     "version": "0.2.0",
 }
 KEYWORD_REPLIES: dict[str, str] = {
@@ -63,16 +63,6 @@ async def say(ctx: EventContext) -> None:
 
     text = ctx.text[len(command_prefix + "say"):].strip()
     await ctx.reply(text or f"用法：{command_prefix}say <内容>")
-
-
-# @on_keyword("草猫", match="exact", at_sender=True)
-# async def ro(ctx: EventContext) -> None:
-#     event = ctx.message_event
-#     if event is None:
-#         return
-#     await ctx.reply("成功草猫了", at_sender=False)
-
-
 
 def setup(bot) -> None:
     def teardown(_bot) -> None:

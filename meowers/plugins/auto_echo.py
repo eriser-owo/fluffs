@@ -21,7 +21,7 @@ _prefixes = tuple(_cfg.bot.command_prefixes) if _cfg else ()
 __plugin_meta__ = {
     "name": "auto_echo",
     "description": f"自动复读：{WINDOW:.0f} 秒内 {THRESHOLD} 个不同的人说同一句话就跟着复读",
-    "usage": "无需命令，自动生效；阈值见本文件顶部的常量",
+    "usage": "无",
     "version": "0.1.0",
     "author": "Eriser",
 }

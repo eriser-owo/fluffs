@@ -15,7 +15,7 @@ command_prefix = (_prefixes or ["//"])[0]
 __plugin_meta__ = {
     "name": "admin",
     "description": f"内置：{command_prefix}ping 测活、{command_prefix}reload 热重载插件（仅超级用户）、{command_prefix}napcat 一些NapCat版本提示",
-    "usage": f"{command_prefix}ping、{command_prefix}reload <插件名>",
+    "usage": f"无",
     "version": "0.2.0",
 }
 

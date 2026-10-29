@@ -19,8 +19,8 @@ logger = logging.getLogger(__name__)
 
 __plugin_meta__ = {
     "name": "avatar_cache",
-    "description": "群友头像下载与磁盘缓存（data/avatars/，7 天过期）",
-    "usage": "无需命令；插件用 bot.services[\"avatar_cache\"].get(user_id) 取字节",
+    "description": "群友头像下载与磁盘缓存",
+    "usage": "无",
     "version": "0.1.0",
 }
 

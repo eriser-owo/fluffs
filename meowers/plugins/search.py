@@ -18,7 +18,7 @@ command_prefix = (_prefixes or ["//"])[0]
 __plugin_meta__ = {
     "name": "search",
     "description": "简单的网页搜索喵。",
-    "usage": f"{command_prefix}搜索/search  {{关键词}}",
+    "usage": f"{command_prefix}搜索 / search  {{关键词}}",
     "version": "0.3.0",
     "author": "Eriser",
 }
