@@ -1,8 +1,10 @@
-"""自动复读：群里 WINDOW 秒内被 THRESHOLD 个不同的人发同一条消息，Bot 就跟着复读一遍。"""
+"""自动复读：群里 WINDOW 秒内被 THRESHOLD 个不同的人发同一条消息，Bot 就跟一遍。
+有 10% 概率不复读原内容，而是回复「禁止复读」。"""
 
 from __future__ import annotations
 
 import logging
+import random
 import time
 from collections import defaultdict, deque
 from fluffs.config import get_active_config
@@ -14,6 +16,7 @@ WINDOW = 60.0      # 统计窗口（秒）
 THRESHOLD = 3      # 需要多少个「不同的人」
 COOLDOWN = 10.0    # 复读之后的冷却（秒），期间同一条消息不再复读
 MAX_LEN = 200      # 超过这个长度的消息不参与（别复读大段文本刷屏）
+FUN_RATE = 0.1
 
 _cfg = get_active_config()
 _prefixes = tuple(_cfg.bot.command_prefixes) if _cfg else ()
@@ -22,7 +25,7 @@ __plugin_meta__ = {
     "name": "auto_echo",
     "description": f"自动复读：{WINDOW:.0f} 秒内 {THRESHOLD} 个不同的人说同一句话就跟着复读",
     "usage": "无",
-    "version": "0.1.0",
+    "version": "0.2.0",
     "author": "Eriser",
 }
 
@@ -107,9 +110,14 @@ def setup(bot) -> None:
 
         if not state.observe(event.group_id, event.user_id, text, time.monotonic()):
             return
+        if random.random() < FUN_RATE:
+            logger.info("「%.30s」被 %d 个不同的人说了喵，这次不复读~", text, THRESHOLD)
+            reply = "禁止复读！"
+        else:
+            logger.info("「%.30s」被 %d 个不同的人说了喵，复读一遍~", text, THRESHOLD)
+            reply = text
 
-        logger.info("「%.30s」被 %d 个不同的人说了喵，复读一遍~", text, THRESHOLD)
         try:
-            await ctx.send(text)  # 原样复读，不 @ 人
+            await ctx.send(reply)
         except Exception:
             logger.exception("复读失败喵: %.50s", text)

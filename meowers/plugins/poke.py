@@ -29,7 +29,6 @@ def setup(bot) -> None:
         event = ctx.event
         if not isinstance(event, NoticeEvent):
             return
-        # 只回应"戳自己"的，戳别人不插嘴；self_id 优先取事件自带的
         self_id = event.self_id or ctx.bot.api.self_id or ctx.bot.config.bot.self_id
         if self_id and event.target_id != self_id:
             return

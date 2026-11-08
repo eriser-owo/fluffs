@@ -22,4 +22,4 @@ def setup(bot) -> None:
         if not ctx.args:
             await ctx.reply(f"用法：{command_prefix}echo <内容>")
             return
-        await ctx.reply(ctx.args)
+        await ctx.send(ctx.args)

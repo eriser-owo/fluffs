@@ -94,6 +94,12 @@ def image(file: str) -> Segment:
     return segment("image", file=file)
 
 
+def record(file: str, **data: Any) -> Segment:
+    """语音段（OneBot 11 的 record）。
+    """
+    return segment("record", file=file, **data)
+
+
 def reply(message_id: int | str) -> Segment:
     return segment("reply", id=str(message_id))
 
