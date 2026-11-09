@@ -4,6 +4,7 @@
     context.py      上下文
     rules.py        通用规则原语
     loader.py       插件
+    scheduler.py    定时任务
     from fluffs.core import EventContext, rules
 """
 
@@ -14,6 +15,7 @@ from .context import EventContext
 from .dispatcher import Dispatcher, Handler, HandlerFunc
 from .loader import PluginManager, PluginMeta, current_plugin
 from .rules import Rule
+from .scheduler import Schedule, Scheduler
 
 __all__ = [
     "Dispatcher",
@@ -24,5 +26,7 @@ __all__ = [
     "PluginManager",
     "PluginMeta",
     "Rule",
+    "Schedule",
+    "Scheduler",
     "current_plugin",
 ]

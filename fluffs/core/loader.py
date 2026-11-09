@@ -172,6 +172,7 @@ class PluginManager:
             return None
         await self._run_teardown(plugin_name)
         self.bot.dispatcher.remove_plugin(plugin_name)
+        self.bot.scheduler.remove_plugin(plugin_name)
         self.modules.pop(meta.module, None)
         try:
             importlib.invalidate_caches()
@@ -216,5 +217,6 @@ class PluginManager:
         for name in list(self.loaded):
             await self._run_teardown(name)
             self.bot.dispatcher.remove_plugin(name)
+            self.bot.scheduler.remove_plugin(name)
         self.loaded.clear()
         self.modules.clear()

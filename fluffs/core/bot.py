@@ -28,6 +28,7 @@ from .dispatcher import (
 )
 from .loader import PluginManager, current_plugin
 from .rules import Rule
+from .scheduler import Scheduler
 
 logger = logging.getLogger(__name__)
 
@@ -43,6 +44,7 @@ class FluffsBot:
         self.api = BotAPI(self.transport, self_id=config.bot.self_id)
         self.dispatcher = Dispatcher()
         self.plugins = PluginManager(self)
+        self.scheduler = Scheduler(self)
         # 模块之间共享可复用对象（如聊天记录归档），用 bot.services["名字"] 取用
         self.services: dict[str, Any] = {}
         self._stop_event = asyncio.Event()
@@ -108,6 +110,7 @@ class FluffsBot:
             return
         self._started = True
         await self.plugins.load_all()
+        self.scheduler.start()
         await self.transport.start()
         logger.info("Fluffs 启动好啦喵 等待 NapCat 连线~")
 
@@ -125,6 +128,7 @@ class FluffsBot:
         if not self._started:
             return
         self._started = False
+        await self.scheduler.stop()
         await self.transport.stop()
         for task in list(self._bg_tasks):
             task.cancel()
@@ -207,6 +211,7 @@ class FluffsBot:
             "handlers": len(self.dispatcher.handlers),
             "plugins": [meta.name for meta in self.plugins.loaded.values()],
             "services": sorted(self.services),
+            "schedules": self.scheduler.describe(),
             "kinds": [KIND_MESSAGE, KIND_NOTICE, KIND_REQUEST, KIND_META, KIND_ALL],
         }
 

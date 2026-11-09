@@ -108,6 +108,26 @@ class BotAPI:
             return await self.send_group_msg(event.group_id, payload, auto_escape=auto_escape)
         return await self.send_private_msg(event.user_id, payload, auto_escape=auto_escape)
 
+    async def reply_to(
+        self,
+        message_id: int | str,
+        message: msg.MessageLike,
+        *,
+        group_id: int | None = None,
+        user_id: int | None = None,
+        auto_escape: bool = False,
+    ) -> dict[str, Any]:
+        """引用回复任意一条消息（自动带 reply 段）。
+
+        ``group_id`` 发到群、``user_id`` 发到私聊，二选一。
+        """
+        payload = msg.build(msg.reply(message_id), message)
+        if group_id:
+            return await self.send_group_msg(group_id, payload, auto_escape=auto_escape)
+        if user_id:
+            return await self.send_private_msg(user_id, payload, auto_escape=auto_escape)
+        raise ValueError("reply_to() 需要 group_id 或 user_id")
+
     # --- 信息查询 ---------------------------------------------------------
     async def get_login_info(self) -> dict[str, Any]:
         return await self.call("get_login_info")
