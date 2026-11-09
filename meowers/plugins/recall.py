@@ -27,6 +27,7 @@ def setup(bot) -> None:
             rules.regex(r"^\s*撤回\s*$"),
         ),
         priority=10,
+        block=True,
     )
     async def on_recall(ctx: EventContext) -> None:
         event = ctx.message_event
