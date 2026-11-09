@@ -46,6 +46,8 @@ temperature = 0.7
 max_tokens = 1024
 timeout = 60.0
 allow_private = true
+# 识图用的多模态模型,留空则不启用识图
+vision_model = ""
 [chatlog]
 enabled = true
 # all: 记录所有群消息（完整聊天档案） | mention: 只记录 @ 了机器人的消息

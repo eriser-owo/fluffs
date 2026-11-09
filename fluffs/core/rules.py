@@ -2,7 +2,7 @@
 Rule 就是一个Callable[[EventContext], bool]，可以用 all_of/any_of/negate自由组合。
 规则可以顺手往ctx.state里写解析结果
 （例如command会写入命令名与参数）。
-这里只放通用原语：命中方式（命令、正则、@、群/私聊、超级用户）。
+这里只放通用原语：命中方式（命令、正则、@、群/私聊、超级用户、群主/群管理）。
 业务性的匹配（关键词自动回复分支）在 App 的关键词模块（如meowers.modules.kw_reply）
 """
 
@@ -99,6 +99,32 @@ def from_superuser() -> Rule:
         if event is None:
             return False
         return event.user_id in ctx.bot.config.bot.superusers
+    return _rule
+
+
+def from_group_admin() -> Rule:
+    """发送者是群主或群管理员（仅群聊；私聊返回 False）。
+
+    用法（只想让群管理用）：
+        @bot.on_command("禁言", rule=rules.from_group_admin())
+    想「超级用户或群管理」都能用，用组合子：
+        rule=rules.any_of(rules.from_superuser(), rules.from_group_admin())
+    """
+    def _rule(ctx: EventContext) -> bool:
+        event = ctx.message_event
+        if event is None or not event.is_group:
+            return False
+        return event.role in ("owner", "admin")
+    return _rule
+
+
+def from_group_owner() -> Rule:
+    """发送者是群主（仅群聊）。"""
+    def _rule(ctx: EventContext) -> bool:
+        event = ctx.message_event
+        if event is None or not event.is_group:
+            return False
+        return event.role == "owner"
     return _rule
 
 

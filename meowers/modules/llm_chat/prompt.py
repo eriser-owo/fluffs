@@ -15,11 +15,13 @@ from __future__ import annotations
 from fluffs.napcat import MessageEvent  # 走包级导出，不深挖框架子模块
 
 
-def build_user_input(event: MessageEvent) -> str:
+def build_user_input(event: MessageEvent, quoted_text: str = "") -> str:
     lines = [f"昵称: {event.nickname}"]
     if event.is_group:
         lines.append(f"职位: {event.role_cn}")
         lines.append(f"群号: {event.group_id}")
+    if quoted_text:
+        lines.append(f"回复的消息: {quoted_text}")
     lines.append(f"消息: {event.plain_text.strip()}")
     return "\n".join(lines)
 

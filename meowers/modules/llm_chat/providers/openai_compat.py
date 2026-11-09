@@ -38,12 +38,19 @@ class OpenAICompatProvider(ChatProvider):
         return self._client
 
     async def complete(self, messages: Sequence[ChatMessage], **overrides: Any) -> str:
-        payload = {
+        thinking = overrides.get("thinking")
+        payload: dict[str, Any] = {
             "model": overrides.get("model") or self.config.model,
             "messages": [m.to_dict() for m in messages],
-            "temperature": overrides.get("temperature", self.config.temperature),
-            "max_tokens": overrides.get("max_tokens", self.config.max_tokens),
         }
+        if thinking is not None:
+            # 思考模式不支持 temperature，改传 thinking / reasoning_effort
+            payload["thinking"] = thinking
+            if "reasoning_effort" in overrides:
+                payload["reasoning_effort"] = overrides["reasoning_effort"]
+        else:
+            payload["temperature"] = overrides.get("temperature", self.config.temperature)
+        payload["max_tokens"] = overrides.get("max_tokens", self.config.max_tokens)
         try:
             response = await self._get_client().post("/chat/completions", json=payload)
         except httpx.HTTPError as exc:

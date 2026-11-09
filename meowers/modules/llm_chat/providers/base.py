@@ -22,9 +22,9 @@ class ChatMessage:
     """一条对话消息。"""
 
     role: str  # system | user | assistant
-    content: str
+    content: str | list[Any]  # 纯文本 str，或多模态 parts
 
-    def to_dict(self) -> dict[str, str]:
+    def to_dict(self) -> dict[str, Any]:
         return {"role": self.role, "content": self.content}
 
 

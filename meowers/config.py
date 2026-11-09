@@ -59,6 +59,8 @@ class LLMConfig:
     timeout: float = 60.0
     # 群聊一律要求 @ 机器人；私聊是否也允许对话（规范为「仅 @」，故默认关闭）
     allow_private: bool = False
+    # 识图用的多模态模型。留空表示不启用识图
+    vision_model: str = ""
 
 
 @dataclass(slots=True)
@@ -98,6 +100,7 @@ class AppConfig(FluffsConfig):
             "enabled": self.llm.enabled,
             "provider": self.llm.provider,
             "model": self.llm.model,
+            "vision_model": self.llm.vision_model,
             "base_url": self.llm.base_url,
             "api_key": mask(self.llm.api_key),
         }
@@ -133,6 +136,7 @@ def _env_mapping(config: AppConfig) -> dict[str, tuple[Any, str, Any]]:
         f"{ENV_PREFIX}LLM_API_KEY": (config.llm, "api_key", str),
         f"{ENV_PREFIX}LLM_MODEL": (config.llm, "model", str),
         f"{ENV_PREFIX}LLM_ALLOW_PRIVATE": (config.llm, "allow_private", env_bool),
+        f"{ENV_PREFIX}LLM_VISION_MODEL": (config.llm, "vision_model", str),
         f"{ENV_PREFIX}CHATLOG_ENABLED": (config.chatlog, "enabled", env_bool),
         f"{ENV_PREFIX}CHATLOG_SCOPE": (config.chatlog, "scope", str),
         f"{ENV_PREFIX}CHATLOG_DIR": (config.chatlog, "dir", str),
