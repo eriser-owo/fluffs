@@ -1,5 +1,3 @@
-"""猫猫签到：发「签到」打卡，发「补签 {几号}」补过去没签的日期，回一张本月日历图。"""
-
 from __future__ import annotations
 
 import base64
@@ -15,20 +13,13 @@ from PIL import Image, ImageDraw, ImageFont
 from fluffs.core import EventContext, rules
 from fluffs.napcat import message as msg
 
+from meowers.config import APP_ROOT
 from meowers.modules.groups import list_members
 
 logger = logging.getLogger(__name__)
 
-__plugin_meta__ = {
-    "name": "cat_checkin",
-    "description": "猫猫签到：发「签到」打卡、发「补签 {DD}」补签、发「签到榜」看本月榜单",
-    "usage": "签到、补签 {DD}、签到榜",
-    "version": "0.5.0",
-    "author": "eriser-owo",
-}
-
-ASSETS = Path(__file__).resolve().parent / "assets" / "cat_checkin"
-DB_PATH = Path(__file__).resolve().parents[2] / "data" / "cat_checkin" / "checkin.db"
+ASSETS = Path(__file__).resolve().parent / "assets"
+DB_PATH = APP_ROOT / "data" / "cat_checkin" / "checkin.db"
 TILE = 128
 MARGIN = 4
 GAP = 2
@@ -336,7 +327,8 @@ async def setup(bot) -> None:
         rules.all_of(
             rules.group_only,
             rules.any_of(
-                rules.regex(r"^\s*签到\s*$"),
+                rules.regex(r"^\s*草猫\s*$"),
+                rules.regex(r"^\s*👒\s*$"),
             ),
         ), priority=50)
     async def on_checkin(ctx: EventContext) -> None:
@@ -351,12 +343,12 @@ async def setup(bot) -> None:
             makeup = await state.month_total(event.user_id, today.year, today.month, "makeup")
             png = render_calendar(today.year, today.month, grid, normal, makeup)
             image = msg.image("base64://" + base64.b64encode(png).decode())
-            await ctx.reply(msg.build(f"成功签到了（今日第 {count} 次）：", image))
+            await ctx.reply(msg.build(f"成功草猫了（今日第 {count} 发）：", image))
         except Exception:
             logger.exception("猫猫签到翻车啦喵")
             await ctx.reply("猫猫签到翻车啦喵，看下日志")
 
-    @bot.on_command("补签", prefixes=[""])
+    @bot.on_command("补草", prefixes=[""])
     async def on_makeup(ctx: EventContext) -> None:
         event = ctx.message_event
         if event is None or not event.is_group:
@@ -381,7 +373,7 @@ async def setup(bot) -> None:
 
         try:
             if await state.day_state(event.user_id, today.year, today.month, dd) is not None:
-                await ctx.reply(f"{dd} 号已经签过猫了喵，不用补")
+                await ctx.reply(f"{dd} 号已经草过猫了喵，不用补")
                 return
 
             await state.checkin(
