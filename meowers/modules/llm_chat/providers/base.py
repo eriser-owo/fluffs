@@ -8,7 +8,7 @@ from __future__ import annotations
 
 import logging
 from abc import ABC, abstractmethod
-from collections.abc import AsyncIterator, Sequence
+from collections.abc import AsyncIterator, Awaitable, Callable, Sequence
 from dataclasses import dataclass
 from typing import Any, ClassVar
 
@@ -21,11 +21,18 @@ logger = logging.getLogger(__name__)
 class ChatMessage:
     """一条对话消息。"""
 
-    role: str  # system | user | assistant
-    content: str | list[Any]  # 纯文本 str，或多模态 parts
+    role: str  # system | user | assistant | tool
+    content: str | list[Any] | None  # 纯文本 str，或多模态 parts
+    tool_calls: list[Any] | None = None      # assistant 消息的 tool_calls
+    tool_call_id: str | None = None          # tool 消息的 tool_call_id
 
     def to_dict(self) -> dict[str, Any]:
-        return {"role": self.role, "content": self.content}
+        data = {"role": self.role, "content": self.content}
+        if self.tool_calls is not None:
+            data["tool_calls"] = self.tool_calls
+        if self.tool_call_id is not None:
+            data["tool_call_id"] = self.tool_call_id
+        return data
 
 
 class LLMError(Exception):
@@ -51,6 +58,19 @@ class ChatProvider(ABC):
     @abstractmethod
     async def complete(self, messages: Sequence[ChatMessage], **overrides: Any) -> str:
         """一次性返回完整回复文本。overrides 可覆盖 model / temperature / max_tokens。"""
+
+    async def complete_tools(
+        self,
+        messages: Sequence[ChatMessage],
+        tools: list[dict],
+        tool_executor: Callable[[str, dict], Awaitable[str]],
+        **overrides: Any,
+    ) -> str:
+        """带工具调用的多轮对话；默认不支持，需要时在子类实现。
+
+        ``tool_executor(name, args)`` 返回工具执行结果文本。
+        """
+        raise NotImplementedError(f"{self.name} 暂不支持工具调用")
 
     def stream(self, messages: Sequence[ChatMessage], **overrides: Any) -> AsyncIterator[str]:
         """预留：流式输出。默认不支持，需要时在子类里实现。"""
