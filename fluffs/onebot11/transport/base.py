@@ -1,10 +1,10 @@
-"""传输层抽象：与 NapCat 之间的 OneBot 11 JSON over WebSocket。
+"""传输层抽象：与对端之间的 OneBot 11 JSON over WebSocket。
 
 一个 Transport 同时负责两件事：
-1. 接收 NapCat 上报的事件（交给 ``on_event`` 回调）；
+1. 接收对端上报的事件（交给 ``on_event`` 回调）；
 2. 发送 API 调用并按 ``echo`` 匹配回包（``call``）。
 
-实现见 ``reverse_ws.py`` / ``forward_ws.py``；异常类型在 ``napcat/errors.py``。
+实现见 ``reverse_ws.py`` / ``forward_ws.py``；异常类型在 ``onebot11/errors.py``。
 扩展新的传输方式（如 HTTP POST + HTTP API）只需继承 ``Transport``。
 """
 
@@ -71,7 +71,7 @@ class Transport(ABC):
         因此回调方必须保证自己不做阻塞收包循环的事情（见 core.bot 的说明）。
         """
         self._ready = value
-        logger.info("NapCat 连线状态: %s 喵", "已连接" if value else "已断开")
+        logger.info("对端连线状态: %s 喵", "已连接" if value else "已断开")
         if self._on_state_change is not None:
             result = self._on_state_change(value)
             if asyncio.iscoroutine(result):
@@ -91,7 +91,7 @@ class Transport(ABC):
         （早期版本把非 dict 的 data 吞成 ``{}``，导致列表类接口永远返回空）。
         """
         if not self._ready:
-            raise NotConnected(f"未连接到 NapCat，无法调用 {action}")
+            raise NotConnected(f"未连接到对端，无法调用 {action}")
 
         echo = f"{action}:{next(self._counter)}"
         future: asyncio.Future[dict[str, Any]] = asyncio.get_running_loop().create_future()

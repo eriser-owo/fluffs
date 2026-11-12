@@ -15,7 +15,7 @@ from datetime import datetime
 
 from fluffs.config import get_active_config
 from fluffs.core import EventContext, rules
-from fluffs.napcat import MetaEvent, NoticeEvent
+from fluffs.onebot11 import MetaEvent, NoticeEvent
 
 from ...config import APP_ROOT
 from . import query as q
@@ -240,7 +240,7 @@ async def setup(bot) -> None:
     async def groups_cmd(ctx: EventContext) -> None:
         groups = await q.list_groups()
         if not groups:
-            await ctx.reply("还没同步到任何群喵（连上 NapCat 后会自动同步）")
+            await ctx.reply("还没同步到任何群喵（连上对端后会自动同步）")
             return
         lines = ["我所在的群："]
         for g in groups:

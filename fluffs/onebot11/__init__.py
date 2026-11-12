@@ -1,4 +1,4 @@
-"""OneBot 11 协议层：与 NapCat 之间的全部协议细节。
+"""OneBot 11 协议层：OneBot 11 协议细节（与具体对端实现无关）。
 
 这一层只关心"协议"，不关心业务：
     events.py      上报事件的模型与解析
@@ -7,10 +7,10 @@
     transport/     连接与收发（反向 / 正向 WebSocket）
     errors.py      协议层异常
 
-依赖方向：``napcat`` 只依赖 ``config``，不认识 ``core`` / ``modules``。
+依赖方向：``onebot11`` 只依赖 ``config``，不认识 ``core`` / ``modules``。
 插件里需要事件类型或消息段时从这里 import：
-    from fluffs.napcat import MessageEvent, NoticeEvent
-    from fluffs.napcat import message as msg
+    from fluffs.onebot11 import MessageEvent, NoticeEvent
+    from fluffs.onebot11 import message as msg
 """
 
 from __future__ import annotations

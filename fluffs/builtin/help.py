@@ -46,7 +46,7 @@ def setup(bot) -> None:
         info = bot.describe()
         lines = [
             "运行状态",
-            f"· NapCat 连接: {'已连接' if info['ready'] else '未连接'}",
+            f"·对端连接: {'已连接' if info['ready'] else '未连接'}",
             f"· 登录账号: {info['self_id'] or '未知'}",
             f"· 处理函数: {info['handlers']} 个",
             f"· 插件: {', '.join(info['plugins']) or '无'}",

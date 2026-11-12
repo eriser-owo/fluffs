@@ -1,11 +1,11 @@
-"""正向 WebSocket：本 Bot 作为客户端，主动连接 NapCat 的 WS 服务端。
+"""正向 WebSocket：本 Bot 作为客户端，主动连接对端的 WS 服务端。
 
-NapCat 侧配置（网络配置 -> 新建 -> WebSocket 客户端）：
+对端侧配置（网络配置 -> 新建 -> WebSocket对端）：
     地址: ws://127.0.0.1:3001
     Token: 与 config.toml 的 connection.token 一致
 本 Bot 侧：connection.mode = "forward_ws"，connection.forward_url 填上面地址。
 
-自带断线重连。注意：该模式尚未在真实 NapCat 上验证，首次使用请留意日志。
+自带断线重连。注意：该模式尚未在真实对端上验证，首次使用请留意日志。
 """
 
 from __future__ import annotations
@@ -31,7 +31,7 @@ class ForwardWebSocketTransport(Transport):
     async def start(self) -> None:
         self._stopping = False
         self._runner = asyncio.create_task(self._run_forever(), name="forward-ws")
-        logger.info("正向 WS 客户端出发啦喵 目标: %s", self.config.forward_url)
+        logger.info("正向 WS对端出发啦喵 目标: %s", self.config.forward_url)
 
     async def stop(self) -> None:
         self._stopping = True
@@ -48,11 +48,11 @@ class ForwardWebSocketTransport(Transport):
     async def _send_text(self, text: str) -> None:
         conn = self._conn
         if conn is None:
-            raise NotConnected("尚未连接到 NapCat")
+            raise NotConnected("尚未连接到对端")
         try:
             await conn.send(text)
         except ConnectionClosed as exc:
-            raise NotConnected("NapCat 连接已断开") from exc
+            raise NotConnected("对端连接已断开") from exc
 
     async def _run_forever(self) -> None:
         headers = {}
@@ -76,11 +76,11 @@ class ForwardWebSocketTransport(Transport):
                     finally:
                         self._conn = None
                         await self._set_ready(False)
-                        self._fail_pending(NotConnected("NapCat 连接已断开"))
+                        self._fail_pending(NotConnected("对端连接已断开"))
             except asyncio.CancelledError:
                 raise
             except Exception as exc:
-                logger.warning("这次没连上 NapCat 喵，眨个眼再试~: %s", exc)
+                logger.warning("这次没连上对端喵，眨个眼再试~: %s", exc)
 
             if not self._stopping:
                 await asyncio.sleep(max(self.config.reconnect_interval, 0.5))

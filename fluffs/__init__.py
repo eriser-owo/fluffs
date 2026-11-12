@@ -1,8 +1,8 @@
-"""Fluffs —— 轻量 QQ 机器人框架（OneBot 11 / NapCat）。
+"""Fluffs —— 轻量 QQ 机器人框架（OneBot 11）。
 
 框架侧（本包）只提供通用能力，不认识任何业务：
 
-    fluffs.napcat     协议层：WebSocket 传输、事件模型、消息段、API 封装、异常
+    fluffs.onebot11     协议层：WebSocket 传输、事件模型、消息段、API 封装、异常
     fluffs.core       内核：FluffsBot 装配、事件分发、上下文、通用规则、插件加载
     fluffs.builtin    内置管理命令：/help、/status、/ping、/reload
     fluffs.config     框架配置段（connection / bot / log）与通用加载原语

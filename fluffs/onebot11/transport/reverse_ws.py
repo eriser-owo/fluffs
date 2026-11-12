@@ -1,5 +1,5 @@
-"""反向 WebSocket：本 Bot 作为服务端，NapCat 主动连接。
-NapCat 侧配置（网络配置 -> 新建 -> WebSocket 服务器(反向)）：
+"""反向 WebSocket：本 Bot 作为服务端，对端主动连接。
+对端侧配置（网络配置 -> 新建 -> WebSocket 服务器(反向)）：
     URL:   ws://127.0.0.1:8080/onebot/v11/ws
     Token: 与 config.toml 的 connection.token 一致（留空则不校验）
 """
@@ -56,11 +56,11 @@ class ReverseWebSocketTransport(Transport):
     async def _send_text(self, text: str) -> None:
         conn = self._conn
         if conn is None:
-            raise NotConnected("NapCat 尚未连接")
+            raise NotConnected("对端尚未连接")
         try:
             await conn.send(text)
         except ConnectionClosed as exc:
-            raise NotConnected("NapCat 连接已断开") from exc
+            raise NotConnected("对端连接已断开") from exc
 
     # --- 握手校验 ---------------------------------------------------------
     async def _process_request(self, connection: ServerConnection, request: Request) -> Response | None:
@@ -84,9 +84,9 @@ class ReverseWebSocketTransport(Transport):
 
     # --- 连接处理 ---------------------------------------------------------
     async def _handler(self, connection: ServerConnection) -> None:
-        logger.info("NapCat 牵上手啦喵 (%s)", connection.remote_address)
+        logger.info("对端牵上手啦喵 (%s)", connection.remote_address)
         if self._conn is not None and self._conn is not connection:
-            logger.warning("旧连接还在呀，先请它下去再收新的喵（NapCat 重连中）")
+            logger.warning("旧连接还在呀，先请它下去再收新的喵（对端重连中）")
             await self._conn.close()
         self._conn = connection
         await self._set_ready(True)
@@ -99,4 +99,4 @@ class ReverseWebSocketTransport(Transport):
             if self._conn is connection:
                 self._conn = None
                 await self._set_ready(False)
-            self._fail_pending(NotConnected("NapCat 连接已断开"))
+            self._fail_pending(NotConnected("对端连接已断开"))

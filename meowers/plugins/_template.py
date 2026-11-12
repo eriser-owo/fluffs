@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from fluffs.config import get_active_config
 from fluffs.core import EventContext, rules
-from fluffs.napcat import message as msg
+from fluffs.onebot11 import message as msg
 
 _cfg = get_active_config()
 _prefixes = _cfg.bot.command_prefixes if _cfg else []

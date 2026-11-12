@@ -7,7 +7,7 @@ from ddgs import DDGS
 
 from fluffs.config import get_active_config
 from fluffs.core import EventContext
-from fluffs.napcat import message as msg
+from fluffs.onebot11 import message as msg
 
 logger = logging.getLogger(__name__)
 

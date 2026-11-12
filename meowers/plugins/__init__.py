@@ -22,7 +22,7 @@
 
 import 约定（体现分层）：
     from fluffs.core import EventContext, rules      # 上下文与规则
-    from fluffs.napcat import MessageEvent, NoticeEvent, message   # 事件与消息段
+    from fluffs.onebot11 import MessageEvent, NoticeEvent, message   # 事件与消息段
 """
 
 from __future__ import annotations

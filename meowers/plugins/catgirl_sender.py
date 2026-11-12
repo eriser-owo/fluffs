@@ -7,7 +7,7 @@ import logging
 import httpx
 
 from fluffs.core import EventContext, rules
-from fluffs.napcat import message as msg
+from fluffs.onebot11 import message as msg
 
 logger = logging.getLogger(__name__)
 

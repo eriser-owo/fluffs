@@ -10,8 +10,8 @@ from __future__ import annotations
 from dataclasses import dataclass, field
 from typing import TYPE_CHECKING, Any
 
-from ..napcat import message as msg
-from ..napcat.events import Event, MessageEvent
+from ..onebot11 import message as msg
+from ..onebot11.events import Event, MessageEvent
 
 if TYPE_CHECKING:
     from .bot import FluffsBot

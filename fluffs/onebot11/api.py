@@ -1,4 +1,4 @@
-"""OneBot 11 API 封装（NapCat 实现）。
+"""OneBot 11 API 封装。
 
 常用接口都写成了方法；没写的接口可以直接用 ``api.call("动作名", 参数...)`` 调用，
 例如 ``await bot.api.call("set_group_card", group_id=1, user_id=2, card="x")``。
@@ -164,9 +164,9 @@ class BotAPI:
         return await self.call("set_group_kick", group_id=group_id, user_id=user_id, reject_add_request=reject_add_request)
 
     async def send_group_poke(self, group_id: int, user_id: int) -> dict[str, Any]:
-        """群内戳一戳（NapCat 扩展接口）。
+        """群内戳一戳（扩展接口）。
 
-        动作名各实现不一：NapCat 用 ``group_poke``，go-cqhttp 系叫 ``send_group_poke``。
+        动作名各实现不一：有的实现用 ``group_poke``，有的叫 ``send_group_poke``。
         先试前者，失败再退后者；两个都不行就把第一个错误抛出去。
         """
         try:

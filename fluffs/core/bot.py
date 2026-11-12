@@ -13,8 +13,8 @@ from collections.abc import Callable
 from typing import Any
 
 from ..config import FluffsConfig
-from ..napcat import BotAPI, create_transport
-from ..napcat.events import Event, parse_event
+from ..onebot11 import BotAPI, create_transport
+from ..onebot11.events import Event, parse_event
 from .context import EventContext
 from .dispatcher import (
     KIND_ALL,
@@ -54,7 +54,7 @@ class FluffsBot:
     # 状态
     @property
     def ready(self) -> bool:
-        """是否已连上 NapCat"""
+        """是否已连上对端"""
         return self.transport.ready
 
     # 通用触发入口（模块与插件用这些注册）
@@ -112,7 +112,7 @@ class FluffsBot:
         await self.plugins.load_all()
         self.scheduler.start()
         await self.transport.start()
-        logger.info("Fluffs 启动好啦喵 等待 NapCat 连线~")
+        logger.info("Fluffs 启动好啦喵 等待对端连线~")
 
     async def run(self) -> None:
         """启动并阻塞，直到 request_stop() / 收到中断"""
@@ -188,7 +188,7 @@ class FluffsBot:
         task.add_done_callback(self._bg_tasks.discard)
 
     async def _after_connect(self) -> None:
-        """连上 NapCat 后补齐登录信息 / 版本信息（失败不影响运行）。"""
+        """连上对端后补齐登录信息 / 版本信息（失败不影响运行）。"""
         if not self.api.self_id:
             try:
                 info = await self.api.get_login_info()
@@ -198,7 +198,7 @@ class FluffsBot:
                 logger.warning("唔，登录信息没拿到喵: %s", exc)
         try:
             version = await self.api.get_version_info()
-            logger.info("NapCat 版本确认: %s 喵~", version.get("app_name") or version)
+            logger.info("对端版本确认: %s 喵~", version.get("app_name") or version)
         except Exception:
             logger.debug("版本信息没拿到，不过不影响运行喵~", exc_info=True)
 

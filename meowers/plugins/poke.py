@@ -4,7 +4,7 @@
 from __future__ import annotations
 
 from fluffs.core import EventContext
-from fluffs.napcat import NoticeEvent
+from fluffs.onebot11 import NoticeEvent
 
 __plugin_meta__ = {
     "name": "poke",
@@ -16,7 +16,7 @@ __plugin_meta__ = {
 
 
 def _is_poke(ctx: EventContext) -> bool:
-    """戳一戳通知：NapCat 上报为 notify/poke，部分实现用 group_poke，两种都认。"""
+    """戳一戳通知：对端上报为 notify/poke，部分实现用 group_poke，两种都认。"""
     event = ctx.event
     if not isinstance(event, NoticeEvent):
         return False

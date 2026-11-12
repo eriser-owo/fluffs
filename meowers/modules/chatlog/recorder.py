@@ -15,7 +15,7 @@ from typing import Any
 import aiosqlite
 
 from ...config import APP_ROOT, ChatLogConfig
-from fluffs.napcat import MessageEvent
+from fluffs.onebot11 import MessageEvent
 
 logger = logging.getLogger(__name__)
 

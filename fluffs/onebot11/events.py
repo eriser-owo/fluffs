@@ -189,7 +189,7 @@ def _base(raw: dict[str, Any]) -> dict[str, Any]:
 
 
 def parse_event(raw: dict[str, Any]) -> Event:
-    """把 NapCat 上报的原始 dict 解析成事件对象。"""
+    """把对端上报的原始 dict 解析成事件对象。"""
     post_type = str(raw.get("post_type") or "")
 
     if post_type == "message":

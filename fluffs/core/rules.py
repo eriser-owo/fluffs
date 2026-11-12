@@ -11,7 +11,7 @@ from __future__ import annotations
 import re
 from collections.abc import Callable, Iterable
 
-from ..napcat.events import MessageEvent, NoticeEvent, RequestEvent
+from ..onebot11.events import MessageEvent, NoticeEvent, RequestEvent
 from .context import EventContext
 
 Rule = Callable[[EventContext], bool]

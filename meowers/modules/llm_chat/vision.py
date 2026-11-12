@@ -8,8 +8,8 @@ import base64
 
 import httpx
 
-from fluffs.napcat import message as msg
-from fluffs.napcat.events import MessageEvent
+from fluffs.onebot11 import message as msg
+from fluffs.onebot11.events import MessageEvent
 
 from .providers import ChatMessage
 
@@ -64,7 +64,7 @@ async def image_data_url(api, segment: dict, timeout: float = 15.0) -> str | Non
     file = str(data.get("file") or "")
     url = str(data.get("url") or "")
 
-    # NapCat 直接给 base64
+    #对端直接给 base64
     if file.startswith("base64://"):
         try:
             raw = base64.b64decode(file[len("base64://"):])

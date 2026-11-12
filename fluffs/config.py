@@ -2,7 +2,7 @@
 
 框架只认这三段（App 可以在其上追加自己的段）：
 
-    [connection]  怎么连 NapCat（协议层用）
+    [connection]  怎么连对端（协议层用）
     [bot]         Bot 通用行为：self_id / 超级用户 / 命令前缀 / 插件扫描包……
     [log]         日志级别与文件
 
@@ -32,7 +32,7 @@ _active_config: Any = None
 
 @dataclass(slots=True)
 class ConnectionConfig:
-    """与 NapCat（OneBot 11 实现）的连接参数。"""
+    """与对端（OneBot 11 实现）的连接参数。"""
 
     mode: str = "reverse_ws"  # reverse_ws | forward_ws
     host: str = "127.0.0.1"
@@ -51,7 +51,7 @@ class BotConfig:
     self_id: int = 0
     superusers: list[int] = field(default_factory=list)
     command_prefixes: list[str] = field(default_factory=lambda: ["//"])
-    # 忽略机器人自己发出的消息（NapCat 开启"上报自身消息"时会出现）：
+    # 忽略机器人自己发出的消息（对端开启"上报自身消息"时会出现）：
     # 否则"关键词回复的内容里又含该关键词"会造成自触发循环
     ignore_self: bool = True
     # 黑名单用户

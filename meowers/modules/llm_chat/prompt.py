@@ -12,7 +12,7 @@
 
 from __future__ import annotations
 
-from fluffs.napcat import MessageEvent  # 走包级导出，不深挖框架子模块
+from fluffs.onebot11 import MessageEvent
 
 
 def build_user_input(event: MessageEvent, quoted_text: str = "") -> str:

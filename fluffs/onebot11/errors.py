@@ -12,11 +12,11 @@ class OneBotError(Exception):
 
 
 class NotConnected(OneBotError):
-    """当前没有可用的 NapCat 连接。"""
+    """当前没有可用的对端连接。"""
 
 
 class ActionFailed(OneBotError):
-    """NapCat 返回了失败状态。"""
+    """对端返回了失败状态。"""
 
     def __init__(self, action: str, retcode: int | None, message: str = "", wording: str = "", echo: object = None) -> None:
         detail = message or wording or "未知错误"

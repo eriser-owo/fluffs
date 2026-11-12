@@ -11,7 +11,7 @@ from collections.abc import Awaitable, Callable, Iterable
 from dataclasses import dataclass
 from typing import TYPE_CHECKING
 
-from ..napcat.events import Event, MessageEvent, MetaEvent, NoticeEvent, RequestEvent
+from ..onebot11.events import Event, MessageEvent, MetaEvent, NoticeEvent, RequestEvent
 from .context import EventContext
 from .rules import Rule
 

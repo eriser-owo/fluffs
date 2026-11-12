@@ -8,7 +8,7 @@ import logging
 
 from fluffs.config import get_active_config
 from fluffs.core import EventContext
-from fluffs.napcat import message as msg
+from fluffs.onebot11 import message as msg
 
 from meowers.config import APP_ROOT
 

@@ -10,7 +10,7 @@ from pathlib import Path
 
 import httpx
 
-from fluffs.napcat import avatar_url
+from fluffs.onebot11 import avatar_url
 
 logger = logging.getLogger(__name__)
 

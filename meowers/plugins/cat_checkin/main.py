@@ -11,7 +11,7 @@ import aiosqlite
 from PIL import Image, ImageDraw, ImageFont
 
 from fluffs.core import EventContext, rules
-from fluffs.napcat import message as msg
+from fluffs.onebot11 import message as msg
 
 from meowers.config import APP_ROOT
 from meowers.modules.groups import list_members
@@ -68,7 +68,7 @@ def _load_checked():
 
 def _load_makeup():
     """补签标记：makeup.png，没有就现画一个橙色圆（与正常签的绿色区分）。"""
-    p = ASSETS / "makeup.png"
+    p = ASSETS / "checkedin.png"
     if p.is_file():
         return Image.open(p).convert("RGBA").resize((TILE, TILE))
     im = Image.new("RGBA", (TILE, TILE), (0, 0, 0, 0))

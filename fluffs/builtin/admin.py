@@ -14,7 +14,7 @@ command_prefix = (_prefixes or ["//"])[0]
 
 __plugin_meta__ = {
     "name": "admin",
-    "description": f"内置：{command_prefix}ping 测活、{command_prefix}reload 热重载插件（仅超级用户）、{command_prefix}napcat 一些NapCat版本提示",
+    "description": f"内置：{command_prefix}ping 测活、{command_prefix}reload 热重载插件（仅超级用户）、{command_prefix}onebot 一些OneBot 11版本提示",
     "usage": f"无",
     "version": "0.2.0",
 }
@@ -45,14 +45,14 @@ def setup(bot) -> None:
 
         await ctx.reply(f"插件 {meta.name} 已重载，共 {len(bot.dispatcher.handlers)} 个处理函数")
 
-    @bot.on_command("napcat")
-    async def napcat(ctx: EventContext) -> None:
+    @bot.on_command("onebot")
+    async def onebot(ctx: EventContext) -> None:
         version_data = {}
         try:
             version_data = await bot.api.get_version_info()  # Transport.call 已返回 data
         except Exception:
             pass  # 版本获取失败时不阻断，继续展示环境信息
-        lines = ["NapCat 运行环境"]
+        lines = ["OneBot 11 运行环境"]
         if version_data:
             lines.append(f"应用: {version_data.get('app_name', '未知')}")
             lines.append(f"协议: {version_data.get('protocol_version', '未知')}")
