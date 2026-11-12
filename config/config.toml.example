@@ -2,16 +2,16 @@
 # 敏感项建议填到env 详见.env.example
 
 [connection]
-# reverse_ws: Bot 作为 WebSocket 服务端，NapCat 主动连过来
-# forward_ws: Bot 作为客户端，主动连 NapCat 的 WebSocket 服务端 (测试ing，尚不可用)
+# reverse_ws: Bot 作为 WebSocket 服务端，对端主动连过来
+# forward_ws: Bot 作为客户端，主动连对端的 WebSocket 服务端 (测试ing，尚不可用)
 mode = "reverse_ws"
 host = "127.0.0.1"
-# reverse_ws 监听端口，需与 NapCat网络配置 -> 新建 WebSocket 服务器(反向) 中的 URL 一致
+# reverse_ws 监听端口，需与对端网络配置 -> 新建 WebSocket 服务器(反向) 中的 URL 一致
 port = 8080
 path = "/onebot/v11/ws"
-# 与 NapCat 侧填写的 token 相同，留空表示不校验
+# 与对端侧填写的 token 相同，留空表示不校验
 token = ""
-# forward_ws 模式下 NapCat 的地址
+# forward_ws 模式下对端的地址
 forward_url = "ws://127.0.0.1:3001"
 # 断线重连间隔(sec)
 reconnect_interval = 3.0
@@ -19,7 +19,7 @@ reconnect_interval = 3.0
 api_timeout = 30.0
 
 [bot]
-# 0 表示启动后自动从 NapCat 获取登录号（get_login_info）
+# 0 表示启动后自动从对端获取登录号（get_login_info）
 self_id = 0
 # 超级用户 QQ 号，供权限类插件使用（填写数字，不要加双引号 "" ）
 superusers = []

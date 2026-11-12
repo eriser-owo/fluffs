@@ -1,7 +1,7 @@
 [project]
 name = "fluffs"
 version = "0.1.0"
-description = "Fluffs (OneBot 11 / NapCat) + MeowersBot App"
+description = "Fluffs (OneBot 11) + MeowersBot App"
 readme = "README.md"
 requires-python = ">=3.14"
 dependencies = [
