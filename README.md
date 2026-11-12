@@ -2,7 +2,7 @@
 
 这里是一个轻量的异步 QQ 机器人框架
 
-`fluffs` 是框架 （OneBot 11/NapCat），`meowers` 是基于它写的示例应用。
+`fluffs` 是框架 （OneBot 11），`meowers` 是基于它写的示例应用。
 
 
 ## 它能干嘛
@@ -15,7 +15,7 @@
 你需要提前装好：
 Python 3.14+、
 `uv` 包管理器，
-还有 [NapCat](https://napneko.github.io/)
+还有 OneBot 11 客户端（如 NapCat 或 Lagrange）
 
 1. **克隆代码**
    ```bash
@@ -29,7 +29,7 @@ Python 3.14+、
    
 | 依赖 | 版本 | 用途 | 用在哪 |
 |---|---|---|---|
-| `websockets` | ≥15.0 | WebSocket 服务端 / 客户端 | `fluffs/napcat/transport/`（反向 / 正向 WS） |
+| `websockets` | ≥15.0 | WebSocket 服务端 / 客户端 | `fluffs/onebot11/transport/`（反向 / 正向 WS） |
 | `coloredlogs` | ≥15.0.1 | 终端彩色日志 | `fluffs/logging_setup.py`（`ColoredFormatter`） |
 | `httpx` | ≥0.28.0 | 大模型 HTTP 客户端 | `meowers/modules/llm_chat/providers/openai_compat.py` |
 | `ddgs` | ≥9.16.0 | 网页搜索 | `meowers/plugins/search.py` |
@@ -45,13 +45,13 @@ Python 3.14+、
 
 
    把 `config/config.toml.example` 和 `.env.example` 复制一份，去掉后缀名 `.example` ,填上你的信息。
-   在 NapCat 中配置好正/反向WS以及其他配置项
+   在对端中配置好正/反向WS以及其他配置项
 
 
 4. **启动！**
 
 
-   先启动 NapCat 然后运行项目（launch.bat/launch.sh）
+   先启动对端然后运行项目（launch.bat/launch.sh）
 
 
 ## 怎么写插件？
